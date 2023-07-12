@@ -1,5 +1,5 @@
 import argparse
-
+from ..gendiff_func import generate_diff
 
 def main():
 
@@ -12,11 +12,11 @@ def main():
     # Парсинг аргументов командной строки
     args = parser.parse_args()
 
-    # Ваш код для обработки аргументов
+    # Вызываем функцию generate_diff для получения различий между файлами
+    diff = generate_diff(args.first_file, args.second_file)
     
     # Ваш код для обработки аргументов
-    print(f"First file: {args.first_file}")
-    print(f"Second file: {args.second_file}")
+    print(diff)
 
 if __name__ == '__main__':
     main()
