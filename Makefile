@@ -6,5 +6,8 @@ publish:
 	poetry publish --dry-run
 package-install:
 	python3 -m pip install --user --force-reinstall dist/hexlet_code-0.1.0-py3-none-any.whl
-lint:
+check:
+	poetry run pytest
 	poetry run flake8 gendiff
+test-coverage:
+	coverage report -m tests/test_genddiff.py

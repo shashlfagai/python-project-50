@@ -1,9 +1,12 @@
 import argparse
 from ..gendiff_func import generate_diff
 
+
 def main():
 
-    parser = argparse.ArgumentParser(description='Compares two configuration files and shows a difference.')
+    parser = argparse.ArgumentParser(
+        description='Compares two configuration files and shows a difference.'
+        )
 
     # Добавление позиционных аргументов
     parser.add_argument('first_file')
@@ -14,9 +17,9 @@ def main():
 
     # Вызываем функцию generate_diff для получения различий между файлами
     diff = generate_diff(args.first_file, args.second_file)
-    
     # Ваш код для обработки аргументов
     print(diff)
+
 
 if __name__ == '__main__':
     main()
