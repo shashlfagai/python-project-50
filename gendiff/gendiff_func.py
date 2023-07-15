@@ -1,15 +1,11 @@
-import json
+from gendiff.parsing import parsing_data1, parsing_data2
 
 
 def generate_diff(file1_path, file2_path):
-    # Открываем файлы и загружаем их содержимое в словари
-    with open(file1_path) as file1, open(file2_path) as file2:
-        # Загружаем данные из
-        # первого файла в словарь data1
-        data1 = json.load(file1)
-        # Загружаем данные из
-        # второго файла в словарь data2
-        data2 = json.load(file2)
+    # Загружаем данные из
+    # первого файла в словарей
+    data1 = parsing_data1(file1_path)
+    data2 = parsing_data2(file2_path)
     # Форматируем словарь
     diff1 = adding_file1_keys_and_diff_keys(data1, data2)
     diff2 = adding_file2_keys(data1, data2)
