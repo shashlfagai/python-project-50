@@ -21,12 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip3 install poetry
-          make install-
+          make install
       - name: Run linter and pytest
         run: |
           make check
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v7.2.7
+        uses: paambaati/codeclimate-action@v3.2.0
         if: github.ref_name == 'main'
         env:
           CC_TEST_REPORTER_ID: 060b3a1d8ed8a33b9054f021844ad3f134595a94ec4cc3ab48844508d2290fb4
