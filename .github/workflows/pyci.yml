@@ -31,6 +31,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: 060b3a1d8ed8a33b9054f021844ad3f134595a94ec4cc3ab48844508d2290fb4
         with:
-          coverageCommand: make test-coverage
+          coverageCommand: |
+            make test-coverage
           debug: true
 
