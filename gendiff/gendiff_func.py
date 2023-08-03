@@ -1,85 +1,78 @@
+import itertools
 from gendiff.parsing import parsing_data
 
 
 def generate_diff(file1_path, file2_path):
-    # Открываем файлы и загружаем их содержимое в словари
     path_name1 = file1_path
-    path_name2 = file2_path
-    # Загружаем данные из
-    # первого файла в словарей
+    path_name2 = file2_path 
     data1 = parsing_data(path_name1)
     data2 = parsing_data(path_name2)
-    # Форматируем словарь
-    diff1 = collecting_unic_keys_from_file1(data1, data2)
-    diff2 = collecting_unic_keys_from_file2(data1, data2)
-    diff3 = collecting_diff_keys(data1, data2)
-    same_keys = collecting_same_keys(data1, data2)
-    diff = {**diff1, **diff2, **diff3, **same_keys}
-    sorted_diff = sort_diff(diff)
-    formatted_diff = format_diff(sorted_diff)
-    # Возвращаем отформатированную строку различий
-    return formatted_diff
-
-
-def collecting_unic_keys_from_file2(data1, data2):
-    diff = {}
-    for key in data2:
-        if key not in data1:
-            # Добавляем ключ с префиксом "+"
-            # и значение из второго файла
-            diff['+ ' + key] = data2[key]
+    diff = collecting_diff(data1, data2)
     return diff
 
 
-def collecting_unic_keys_from_file1(data1, data2):
-    diff = {}
-    for key in data1:
-        if key not in data2:
-            # Если ключ есть только в первом файле,
-            # добавляем его в словарь с префиксом "-"
-            diff['- ' + key] = data1[key]
-    return diff
-
-
-def collecting_diff_keys(data1, data2):
-    diff = {}
-    for key in data1:
-        if key in data2 and data1[key] != data2[key]:
-                # Если значения по ключу отличаются,
-                # добавляем ключ с префиксом "-" и значение из первого файла
-                diff['- ' + key] = data1[key]
-                # Добавляем ключ с префиксом "+" и значение из второго файла
-                diff['+ ' + key] = data2[key]
-    return diff
-
-
-def collecting_same_keys(data1, data2):
-    diff = {}
-    for key in data1:
-        if key in data2 and data1[key] == data2[key]:
-            # Если ключи в первом и втором файлах равны,
-            # то добавляем ключ и значение без префиксов
-            diff[key] = data1[key]
-    return diff
-
-
-def format_diff(diff):
-    lines = ['{']
-    for key, value in diff.items():
-        if key.startswith('- '):
-            lines.append(f" - {key[2:]}: {value}")
-        elif key.startswith('+ '):
-            lines.append(f" + {key[2:]}: {value}")
+def collecting_diff(data1, data2, depth=1):
+    diff = []
+    deep_indent = '    ' * depth
+    deep_indent_minus = deep_indent[:-2] + '- '
+    deep_indent_plus = deep_indent[:-2] + '+ '
+    deep_indent_for_dict_value = '    ' * (depth + 1)
+    finish_of_deep_indent = '    ' * (depth - 1) + "}"
+    keys = sorted(set(data1.keys()) | set(data2.keys()))
+    for key in keys:
+        value1 = convert_to_lowercase(data1.get(key, 'not_for_add_to_dict'))
+        value2 = convert_to_lowercase(data2.get(key, 'not_for_add_to_dict'))
+        if not isinstance(value1, dict) and not isinstance(value2, dict):
+            if value1 == 'not_for_add_to_dict':
+                diff.append(f'{deep_indent_plus}{key}: {value2}')
+            elif value2 == 'not_for_add_to_dict':
+                diff.append(f'{deep_indent_minus}{key}: {value1}')
+            elif value1 == value2:
+                diff.append(f'{deep_indent}{key}: {value1}')
+            elif value1 != value2:
+                diff.append(f'{deep_indent_minus}{key}: {value1}\n{deep_indent_plus}{key}: {value2}')
         else:
-            lines.append(f"   {key}: {value}")
-    lines.append('}')
-    return '\n'.join(lines)
+            if not isinstance(value2, dict):
+                if value2 == 'not_for_add_to_dict':
+                    nested_value = diff_from_value(value1)
+                    diff.append(f'{deep_indent_minus}{key}: {{\n{deep_indent_for_dict_value}{nested_value}{deep_indent}}}')
+                else:
+                    nested_value = diff_from_value(value1)
+                    diff.append(f'{deep_indent_minus}{key}: {{\n{deep_indent_for_dict_value}{nested_value}\n{deep_indent}}}\n{deep_indent_plus}{key}: {value2}')
+            elif not isinstance(value1, dict):
+                if value2 != 'not_for_add_to_dict':
+                    nested_value = diff_from_value(value2)
+                    diff.append(f'{deep_indent_minus}{key}: {{\n{deep_indent_for_dict_value}{nested_value}\n{deep_indent}}}\n{deep_indent_plus}{key}: {value2}')
+                else:
+                    nested_value = diff_from_value(value2)
+                diff.append(f'{deep_indent_minus}{key}: {{\n{deep_indent_for_dict_value}{nested_value}{deep_indent}}}')
+            elif isinstance(value1, dict) and isinstance(value2, dict):
+                if value1 == value2:
+                    # Если значения - словари, рекурсивно вызываем функцию с новой глубиной
+                    nested_diff = collecting_diff(value1, value2, depth + 1)
+                    diff.append(f'{deep_indent}{key}: {nested_diff}')
+                else:
+                    nested_value1 = diff_from_value(value1)
+                    nested_value2 = diff_from_value(value2)
+                    diff.append(f'{deep_indent_minus}{key}: {{\n{deep_indent_for_dict_value}{nested_value1}\n{deep_indent}}}\n{deep_indent_plus}{key}: {{\n{deep_indent_for_dict_value}{nested_value2}\n{deep_indent}}}')
+    diff.append(finish_of_deep_indent)
+    result = itertools.chain("{", diff)
+    return '\n'.join(result)
 
 
-def sort_diff(diff):
-    sorted_diff = {}
-    sorted_keys = sorted(diff.keys(),
-                         key=lambda k: k[2:] if k.startswith(('+', '-')) else k)
-    for key in sorted_keys:
-        sorted_diff[key] = diff[key]
-    return sorted_diff
+def convert_to_lowercase(data):
+    if isinstance(data, bool):
+        return str(data).lower()
+    else:
+        return data
+
+
+def diff_from_value(value):
+    nested_value = []
+    for k, v in value.items():
+        if isinstance(v, dict):
+            nested_value.append(f'{k}: {diff_from_value(v)}')
+        else:
+            nested_value.append(f'{k}: {v}')
+    nested_value = ''.join(itertools.chain(nested_value, "\n"))
+    return nested_value
