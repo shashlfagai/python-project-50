@@ -8,19 +8,15 @@ def parsing_data(file_path):
         path_name = file_path
         # Определяем формат файла и загружаем данные
         if path_name.endswith(".json"):
-            data = json.load(file)
+            # Если формат файла JSON, читаем его содержимое
+            json_string = file.read()
+            # Заменяем значение "null" на строку '"null"'
+            json_string_with_null = json_string.replace('null', '"null"')
+            # Загружаем данные в словарь
+            data = json.loads(json_string_with_null)
         elif path_name.endswith(".yml") or path_name.endswith(".yaml"):
+            # Если формат файла YAML,
+            # загружаем данные с помощью библиотеки PyYAML
             data = yaml.safe_load(file)
-        data = convert_to_lowercase(data)
-        return data
-
-
-def convert_to_lowercase(data):
-    if isinstance(data, dict):
-        return {key.lower(): convert_to_lowercase(value) for key, value in data.items()}
-    elif isinstance(data, list):
-        return [convert_to_lowercase(item) for item in data]
-    elif isinstance(data, str):
-        return data.lower()
-    else:
+        # Возвращаем данные
         return data
