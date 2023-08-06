@@ -1,5 +1,7 @@
 import argparse
-from ..gendiff_func import generate_diff
+from ..gendiff_func import generate_diff, stylish
+# Устанавливаем форматер по умолчанию
+generate_diff.default_formatter = stylish
 
 
 def main():
