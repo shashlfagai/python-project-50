@@ -1,7 +1,7 @@
 import argparse
-from ..gendiff_func import generate_diff, stylish
-# Устанавливаем форматер по умолчанию
-generate_diff.default_formatter = stylish
+from ..gendiff_func import generate_diff
+from ..formaters.stylish import stylishing
+from ..formaters.plain import plain
 
 
 def main():
@@ -13,12 +13,17 @@ def main():
     # Добавление позиционных аргументов
     parser.add_argument('first_file')
     parser.add_argument('second_file')
-    parser.add_argument('-f', '--format', help='set format of output')
+    parser.add_argument(
+        '-f', '--format',
+        help='set format of output',
+        choices=['stylish', 'plain']
+        )
     # Парсинг аргументов командной строки
     args = parser.parse_args()
-
+    # Выбираем форматер в зависимости от указанного формата
+    format_name = plain if args.format == 'plain' else stylishing
     # Вызываем функцию generate_diff для получения различий между файлами
-    diff = generate_diff(args.first_file, args.second_file)
+    diff = generate_diff(args.first_file, args.second_file, format_name)
     # Ваш код для обработки аргументов
     print(diff)
 
