@@ -25,6 +25,7 @@ jobs:
           make build
           make package-install
           make publish
+          make check
       - name: Run linter and pytest
         run: |
           make check
