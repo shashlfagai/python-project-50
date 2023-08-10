@@ -9,6 +9,29 @@ def stylishing(diff):
     return formatted_diff
 
 
+def formating_inner_diff(diff, depth=1):
+    # Создаем строку для хранения отформатированных различий
+    formatting_diff = ''
+    # Определяем отступы для каждого уровня вложенности
+    deep_indent = '    ' * depth
+    deep_indent_minus = deep_indent[:-2] + '- '
+    deep_indent_plus = deep_indent[:-2] + '+ '
+    # Перебираем различия и форматируем каждую пару ключ-значение
+    # в зависимости от того новое это значение или старое, или не измененное
+    for key, value in diff.items():
+        if not isinstance(value, dict):
+            # Если значение не словарь, добавляем его к отформатированной строке
+            formatting_diff += f'{deep_indent}{key}: {value}\n'
+        else:
+            # Если значение словарь, рекурсивно форматируем его
+            formatting_diff = formating_diff_of_value(
+                key, value, formatting_diff,
+                deep_indent, deep_indent_plus, deep_indent_minus,
+                depth
+                )
+    return formatting_diff
+
+
 def formating_diff_of_value(
         key, value, formatting_diff,
         deep_indent, deep_indent_plus, deep_indent_minus,
@@ -115,27 +138,4 @@ def formating_diff_with_old_value(
             f'{deep_indent_minus}{key}: {{\n'
             f'{nested_diff}{deep_indent}}}\n'
         )
-    return formatting_diff
-
-
-def formating_inner_diff(diff, depth=1):
-    # Создаем строку для хранения отформатированных различий
-    formatting_diff = ''
-    # Определяем отступы для каждого уровня вложенности
-    deep_indent = '    ' * depth
-    deep_indent_minus = deep_indent[:-2] + '- '
-    deep_indent_plus = deep_indent[:-2] + '+ '
-    # Перебираем различия и форматируем каждую пару ключ-значение
-    # в зависимости от того новое это значение или старое, или не измененное
-    for key, value in diff.items():
-        if not isinstance(value, dict):
-            # Если значение не словарь, добавляем его к отформатированной строке
-            formatting_diff += f'{deep_indent}{key}: {value}\n'
-        else:
-            # Если значение словарь, рекурсивно форматируем его
-            formatting_diff = formating_diff_of_value(
-                key, value, formatting_diff,
-                deep_indent, deep_indent_plus, deep_indent_minus,
-                depth
-                )
     return formatting_diff
