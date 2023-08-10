@@ -13,9 +13,6 @@ python = "^3.11"
 coverage = "^7.2.7"
 pyyaml = "^6.0"
 
-[tool.coverage.run]
-disable_warnings = ['no-data-collected']
-
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
 
