@@ -13,13 +13,16 @@ python = "^3.11"
 coverage = "^7.2.7"
 pyyaml = "^6.0"
 
+[tool.coverage.run]
+disable_warnings = ['no-data-collected']
+
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
 pytest = "^7.4.0"
-codeclimate-test-reporter = "^3.2.0"
+codeclimate-test-reporter = "^0.2.3"
 
 [build-system]
 requires = ["poetry-core"]
