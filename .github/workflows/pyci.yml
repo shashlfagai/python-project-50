@@ -34,5 +34,5 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.FAGAI_420 }}
         with:
-          coverageCommand: html
+          coverageCommand: xml
           debug: true
