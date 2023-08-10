@@ -22,10 +22,6 @@ jobs:
         run: |
           pip install poetry
           make install
-          make build
-          make package-install
-          make publish
-          make check
       - name: Run linter and pytest
         run: |
           make check
