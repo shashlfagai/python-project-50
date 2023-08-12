@@ -11,3 +11,4 @@ check:
 	poetry run flake8 gendiff
 test-coverage:
 	poetry run coverage report -m tests/test_genddiff.py
+	coverage json -o coverage_report.py
