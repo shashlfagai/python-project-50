@@ -20,6 +20,7 @@ gendiff = "gendiff.scripts.gendiff:main"
 flake8 = "^6.0.0"
 pytest = "^7.4.0"
 codeclimate-test-reporter = "^0.2.3"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]
