@@ -6,3 +6,4 @@ asciinema show
     https://asciinema.org/a/tnJ0DZZXMVXYqkixomMvVI5be
     https://asciinema.org/a/NjK0KPPnb09mwuhY9BqeYi0eR
     https://asciinema.org/a/y9SimMDvlEdonNhYqFrql0iO2
+    https://asciinema.org/a/7I4VT19QU35B4jUrvdqPO1UUw
