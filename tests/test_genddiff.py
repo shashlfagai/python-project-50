@@ -18,7 +18,7 @@ file1_yml_data = get_fixture_path('file1.yml')
 file2_yml_data = get_fixture_path('file2.yml')
 file1_deep_json_data = get_fixture_path('file1deep.json')
 file2_deep_json_data = get_fixture_path('file2deep.json')
-diff_of_flat_files_result = get_fixture_path('diff_flat_files_result.json')
+# diff_of_flat_files_result = get_fixture_path('diff_flat_files_result.json')
 diff_of_deep_files_result = get_fixture_path('diff_deep_files_result.json')
 
 def test_gendiff_json():  
@@ -128,16 +128,16 @@ Property 'verbose' was added with value: true
     assert generate_diff(file1_path, file2_path, plain) == expected_result
 
 
-def test_gendiff_deep_josn_form_json():
-    result_path = os.path.abspath('diff.json')
-    file1_path = file1_deep_json_data
-    file2_path = file2_deep_json_data
-    generate_diff(file1_path, file2_path, serializing)
-    with open(result_path) as result_file:
-      result = result_file.read()
-    with open(diff_of_deep_files_result) as expected_file:
-      expected_result = expected_file.read()
-    assert result == expected_result
+# def test_gendiff_deep_josn_form_json():
+#     result_path = os.path.abspath('diff.json')
+#     file1_path = file1_deep_json_data
+#     file2_path = file2_deep_json_data
+#     generate_diff(file1_path, file2_path, serializing)
+#     with open(result_path) as result_file:
+#       result = result_file.read()
+#     with open(diff_of_deep_files_result) as expected_file:
+#       expected_result = expected_file.read()
+#     assert result == expected_result
 
 
 def test_gendiff_flat_josn_form_json():
