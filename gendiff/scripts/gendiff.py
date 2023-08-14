@@ -1,5 +1,5 @@
 import argparse
-from ..gendiff import generate_diff
+from ..gendiff_func import generate_diff
 from ..formaters.stylish import stylishing
 from ..formaters.plain import plain
 from ..formaters.jsonutils import serializing
