@@ -16,7 +16,11 @@ def parsing_data(file_path):
             data = json.loads(json_string_with_null)
         elif path_name.endswith(".yml") or path_name.endswith(".yaml"):
             # Если формат файла YAML,
+            # Читаем содержимое файла
+            yaml_string = file.read()
+            # Заменяем значение "null" на строку '"null"'
+            yaml_string_with_null = yaml_string.replace('null', '"null"')
             # загружаем данные с помощью библиотеки PyYAML
-            data = yaml.safe_load(file)
+            data = yaml.safe_load(yaml_string_with_null)
         # Возвращаем данные
         return data
