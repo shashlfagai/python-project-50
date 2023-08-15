@@ -46,7 +46,7 @@ def test_gendiff_yml():
   + timeout: 20
   + verbose: true
 }'''
-    assert generate_diff(file1_path, file2_path, stylishing) == expected_result
+    assert generate_diff(file1_path, file2_path, 'stylish') == expected_result
 
 
 def test_gendiff_deep_josn():
@@ -96,7 +96,7 @@ def test_gendiff_deep_josn():
         fee: 100500
     }
 }'''
-    assert generate_diff(file1_path, file2_path) == expected_result
+    assert generate_diff(file1_path, file2_path, 'stylish') == expected_result
 
   
 def test_gendiff_deep_josn_plain():
@@ -114,7 +114,7 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]
 '''
-    assert generate_diff(file1_path, file2_path, plain) == expected_result
+    assert generate_diff(file1_path, file2_path, 'plain') == expected_result
 
 
 def test_gendiff_flat_josn_plain_():
@@ -125,14 +125,14 @@ Property 'proxy' was removed
 Property 'timeout' was updated. From 50 to 20
 Property 'verbose' was added with value: true
 '''
-    assert generate_diff(file1_path, file2_path, plain) == expected_result
+    assert generate_diff(file1_path, file2_path, 'plain') == expected_result
 
 
 def test_gendiff_deep_josn_form_json():
     result_path = os.path.abspath('diff.json')
     file1_path = file1_deep_json_data
     file2_path = file2_deep_json_data
-    generate_diff(file1_path, file2_path, serializing)
+    generate_diff(file1_path, file2_path, 'json')
     with open(result_path) as result_file:
       result = result_file.read()
     with open(diff_of_deep_files_result) as expected_file:
