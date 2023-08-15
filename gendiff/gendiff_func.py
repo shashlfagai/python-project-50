@@ -1,7 +1,14 @@
 from gendiff.parsing import parsing_data
 from gendiff.formaters.stylish import stylishing
-from gendiff.formaters.jsonutils import serializing
 from gendiff.formaters.plain import plain
+from gendiff.formaters.jsonutils import serializing
+
+# Создаем словарь для соответствия строковых значений и функций форматирования
+format_functions = {
+    'stylish': stylishing,
+    'plain': plain,
+    'json': serializing
+}
 
 
 def generate_diff(file1_path, file2_path, format_name='stylish'):
@@ -12,12 +19,8 @@ def generate_diff(file1_path, file2_path, format_name='stylish'):
     data2 = parsing_data(path_name2)
     # Сравниваем данные и формируем различия
     diff = collecting_diff(data1, data2)
-    if format_name == 'stylish':
-        result = stylishing(diff)
-    elif format_name == 'plain':
-        result = plain(diff)
-    elif format_name == 'json':
-        result = serializing(diff)
+    format_function = format_functions[format_name]
+    result = format_function(diff)
     return result
 
 
