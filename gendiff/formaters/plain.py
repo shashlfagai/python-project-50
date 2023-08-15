@@ -3,6 +3,9 @@ def plain(diff):
     formatted_diff = formatting_diff(diff)
     # Убираем запятые
     formatted_diff = formatted_diff.replace(',', '')
+    formatted_diff = '\n'.join(
+        line for line in formatted_diff.split('\n') if line
+        )
     return formatted_diff
 
 
