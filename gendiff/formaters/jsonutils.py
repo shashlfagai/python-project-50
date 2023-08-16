@@ -1,6 +1,4 @@
-from gendiff.formaters.stylish import stylishing
 import json
-import pickle
 
 
 def serializing(diff):
