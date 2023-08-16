@@ -5,7 +5,7 @@ def plain(diff):
     formatted_diff = formatted_diff.replace(',', '')
     formatted_diff = '\n'.join(
         line for line in formatted_diff.split('\n') if line
-        )
+    )
     return formatted_diff
 
 
@@ -18,7 +18,7 @@ def formatting_diff(diff, way=''):
             if 'new_value' in v or 'old_value' in v:
                 formatted_diff = formatting_diff_of_flat_dict(
                     k, v, formatted_diff, way
-                    )
+                )
             else:
                 nested_value = formatting_diff(v, way + f'{k}.')
                 formatted_diff += nested_value
@@ -35,12 +35,12 @@ def formatting_diff_of_flat_dict(k, v, formatted_diff, way):
         formatted_diff += (
             f"Property '{way}' was added with value: "
             f"{new_value}\n"
-            )
+        )
     else:
         formatted_diff += (
             f"Property '{way}' was updated. "
             f"From {old_value} to {new_value}\n"
-            )
+        )
     return formatted_diff
 
 
