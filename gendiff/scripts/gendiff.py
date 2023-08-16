@@ -6,7 +6,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description='Compares two configuration files and shows a difference.'
-        )
+    )
 
     # Добавление позиционных аргументов
     parser.add_argument('first_file')
@@ -16,7 +16,7 @@ def main():
         help='set format of output "json" format will make file with report',
         choices=['stylish', 'plain', 'json'],
         default='stylish'
-        )
+    )
     # Парсинг аргументов командной строки
     args = parser.parse_args()
     # Выбираем форматер в зависимости от указанного формата

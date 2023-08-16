@@ -28,7 +28,7 @@ def formating_inner_diff(diff, depth=1):
                 key, value, formatting_diff,
                 deep_indent, deep_indent_plus, deep_indent_minus,
                 depth
-                )
+            )
     return formatting_diff
 
 
@@ -36,7 +36,7 @@ def formating_diff_of_value(
         key, value, formatting_diff,
         deep_indent, deep_indent_plus, deep_indent_minus,
         depth
-        ):
+    ):
     if 'new_value' not in value and 'old_value' not in value:
         # Если вложенные значения отсутствуют,
         # добавляем ключ и значение как есть
@@ -51,21 +51,21 @@ def formating_diff_of_value(
             key, value, formatting_diff,
             deep_indent, deep_indent_plus,
             depth
-            )
+        )
     elif value['new_value'] == 'not_for_add_to_dict':
         # Если значение было удалено, форматируем как "удаление"
         formatting_diff = formating_diff_with_old_value(
             key, value, formatting_diff,
             deep_indent, deep_indent_minus,
             depth
-            )
+        )
     else:
         # Если значение было изменено, форматируем как "изменение"
         formatting_diff = formating_diff_with_old_and_new_values(
             key, value, formatting_diff,
             deep_indent, deep_indent_plus, deep_indent_minus,
             depth
-            )
+        )
     return formatting_diff
 
 
@@ -73,7 +73,7 @@ def formating_diff_with_old_and_new_values(
         key, value, formatting_diff,
         deep_indent, deep_indent_plus, deep_indent_minus,
         depth
-        ):
+    ):
     new_value = value['new_value']
     old_value = value['old_value']
     # Форматируем значения, если одно словарь, а другое - простое значение
@@ -113,7 +113,7 @@ def formating_diff_with_new_value(
         key, value, formatting_diff,
         deep_indent, deep_indent_plus,
         depth
-        ):
+    ):
     if not isinstance(value['new_value'], dict):
         formatting_diff += f'{deep_indent_plus}{key}: {value["new_value"]}\n'
     elif isinstance(value['new_value'], dict):
@@ -129,7 +129,7 @@ def formating_diff_with_old_value(
         key, value, formatting_diff,
         deep_indent, deep_indent_minus,
         depth
-        ):
+    ):
     if not isinstance(value['old_value'], dict):
         formatting_diff += f'{deep_indent_minus}{key}: {value["old_value"]}\n'
     elif isinstance(value['old_value'], dict):

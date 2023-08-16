@@ -1,11 +1,12 @@
 import os
-import json
+# import json
 
 
 from gendiff.gendiff_func import generate_diff
-from gendiff.formaters.stylish import stylishing
-from gendiff.formaters.plain import plain
-from gendiff.formaters.jsonutils import serializing
+# from gendiff.formaters.stylish import stylishing
+# from gendiff.formaters.plain import plain
+# from gendiff.formaters.jsonutils import serializing
+
 
 def get_fixture_path(file_name):
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +21,7 @@ file1_deep_json_data = get_fixture_path('file1deep.json')
 file2_deep_json_data = get_fixture_path('file2deep.json')
 # diff_of_flat_files_result = get_fixture_path('diff_flat_files_result.json')
 diff_of_deep_files_result = get_fixture_path('diff_deep_files_result.json')
+
 
 def test_gendiff_json():  
     file1_path = file1_json_data
@@ -98,7 +100,7 @@ def test_gendiff_deep_josn():
 }'''
     assert generate_diff(file1_path, file2_path, 'stylish') == expected_result
 
-  
+
 def test_gendiff_deep_josn_plain():
     file1_path = file1_deep_json_data
     file2_path = file2_deep_json_data
