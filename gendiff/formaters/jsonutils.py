@@ -6,4 +6,4 @@ def serializing(diff):
     formated_diff = plain(diff)
     with open('diff.json', 'w') as output_file:
         json.dump(formated_diff, output_file, indent=2)
-    return formated_diff
+    return output_file
