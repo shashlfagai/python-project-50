@@ -4,5 +4,5 @@ import json
 
 def serializing(diff):
     with open('diff.json', 'w') as output_file:
-        json.dump(diff, output_file, indent=2)
+         output_file.write(json.dump(diff))
     return diff
