@@ -23,7 +23,7 @@ file2_deep_json_data = get_fixture_path('file2deep.json')
 diff_of_deep_files_result = get_fixture_path('diff_deep_files_result.json')
 
 
-def test_gendiff_json():  
+def test_gendiff_json():
     file1_path = file1_json_data
     file2_path = file2_json_data
     expected_result = '''{
@@ -54,51 +54,10 @@ def test_gendiff_yml():
 def test_gendiff_deep_josn():
     file1_path = file1_deep_json_data
     file2_path = file2_deep_json_data
-    expected_result = '''{
-    common: {
-      + follow: false
-        setting1: Value 1
-      - setting2: 200
-      - setting3: true
-      + setting3: null
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
-        setting6: {
-            doge: {
-              - wow: 
-              + wow: so much
-            }
-            key: value
-          + ops: vops
-        }
-    }
-    group1: {
-      - baz: bas
-      + baz: bars
-        foo: bar
-      - nest: {
-            key: value
-        }
-      + nest: str
-    }
-  - group2: {
-        abc: 12345
-        deep: {
-            id: 45
-        }
-    }
-  + group3: {
-        deep: {
-            id: {
-                number: 45
-            }
-        }
-        fee: 100500
-    }
-}'''
+    with open(diff_of_deep_files_result) as expected_file:
+      expected_result = expected_file.read()
     assert generate_diff(file1_path, file2_path, 'stylish') == expected_result
+    
 
 
 def test_gendiff_deep_josn_plain():
