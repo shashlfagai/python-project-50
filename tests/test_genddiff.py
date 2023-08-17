@@ -102,4 +102,3 @@ def test_gendiff_json_format():
     assert isinstance(parsed_result, (dict, list)), "Generated JSON is not a valid object"
     # Если тест успешно дошел до этой точки, значит JSON возвращается корректно
     assert True
-
