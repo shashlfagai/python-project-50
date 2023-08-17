@@ -55,9 +55,8 @@ def test_gendiff_deep_josn():
     file1_path = file1_deep_json_data
     file2_path = file2_deep_json_data
     with open(diff_of_deep_files_result) as expected_file:
-      expected_result = expected_file.read()
+        expected_result = expected_file.read()
     assert generate_diff(file1_path, file2_path, 'stylish') == expected_result
-    
 
 
 def test_gendiff_deep_josn_plain():
