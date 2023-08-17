@@ -74,7 +74,8 @@ def formating_diff_with_old_and_new_values(
         depth):
     new_value = value['new_value']
     old_value = value['old_value']
-    # Форматируем значения, если одно словарь, а другое - простое значение
+    # Форматируем и добавляем значения, если одно словарь,
+    # а другое - простое значение
     if not isinstance(new_value, dict) and isinstance(old_value, dict):
         nested_diff = formating_inner_diff(old_value, depth + 1)
         formatting_diff += (
@@ -89,7 +90,7 @@ def formating_diff_with_old_and_new_values(
             f'{deep_indent_plus}{key}: {{\n'
             f'{nested_diff}{deep_indent}}}\n'
         )
-    # Форматируем значения, если оба значения простые
+    # Форматируем и добавляем значения, если оба значения не словари
     elif not isinstance(old_value, dict) and not isinstance(new_value, dict):
         formatting_diff += f'{deep_indent_minus}{key}: {old_value}\n'
         formatting_diff += f'{deep_indent_plus}{key}: {new_value}\n'
@@ -111,10 +112,18 @@ def formating_diff_with_new_value(
         key, value, formatting_diff,
         deep_indent, deep_indent_plus,
         depth):
+    # Проверяем, является ли новое значение простым типом данных (не словарем)
     if not isinstance(value['new_value'], dict):
+        # Если значение простого типа,
+        # добавляем его в отформатированный результат
         formatting_diff += f'{deep_indent_plus}{key}: {value["new_value"]}\n'
     elif isinstance(value['new_value'], dict):
+        # Если значение - словарь,
+        # вызываем функцию formating_inner_diff тем самым ее замыкая
+        # для обработки вложенных значений
         nested_diff = formating_inner_diff(value['new_value'], depth + 1)
+        # Добавляем новое значение и его вложенные значения
+        # в отформатированный результат
         formatting_diff += (
             f'{deep_indent_plus}{key}: {{\n'
             f'{nested_diff}{deep_indent}}}\n'
@@ -126,10 +135,18 @@ def formating_diff_with_old_value(
         key, value, formatting_diff,
         deep_indent, deep_indent_minus,
         depth):
+    # Проверяем, является ли старое значение простым типом данных (не словарем)
     if not isinstance(value['old_value'], dict):
+        # Если значение простого типа,
+        # добавляем его в отформатированный результат
         formatting_diff += f'{deep_indent_minus}{key}: {value["old_value"]}\n'
     elif isinstance(value['old_value'], dict):
+        # Если значение - словарь,
+        # вызываем функцию formating_inner_diff тем самым ее замыкая
+        # для обработки вложенных значений
         nested_diff = formating_inner_diff(value['old_value'], depth + 1)
+        # Добавляем старое значение и его вложенные значения
+        # в отформатированный результат
         formatting_diff += (
             f'{deep_indent_minus}{key}: {{\n'
             f'{nested_diff}{deep_indent}}}\n'
